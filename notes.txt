@@ -1,0 +1,42 @@
+Delete package-lock.json file to avoid package installation issues in future. 
+When new package is installed, it is automatically created.
+This file is useful for DevOps, since it may reduce installation time since path is mentioned in this file.
+
+package.json
+    Dependencies - dev as well as bundle (Eg forms, bootstrap)
+    DevDependencies - used only for dev (Eg cli, types file, TS, linting)
+    ~ - includes bug fixes
+    ^ - latest stable 
+
+When development freezed remove tilde and caret symbols. When required to update QC and test on local,
+and after that update prod package.json file.
+
+'@angular/forms' - naming convention to specify forms package within angular namespace
+
+tsconfig.app.json - development, some properties can be overridden; some files can be excluded from compilation
+tsconfig.spec.json - testing, some properties can be overridden; some files can be excluded from compilation
+
+angular.json - ess5BrowserSupport property - When true, separate files for polyfills es5 and es2015; saves 100-150 kb, only 
+                     necessary file  loaded
+                     When false, single file created
+
+             - "outputHashing": "all" - Changes hash value of js file when changed. Eliminates requirement
+                                        of 'Clear Temperary Files'
+             - "aot" : "true" - Should be true, prevents runtime errors on prod.
+             - vendorChunk -
+             - fileReplacements : used for replacing files as per environment.
+
+DevOps - teamcity
+
+Commands :
+    ng serve
+    ng serve --open
+    ng serve --open --port=4201
+    Behavior can be changed by doing change in package.json as follows : 
+    ("start": "ng serve",) changed to ("start": "ng serve --open --port=4201",)
+    npm start Command's Behavior changed
+
+Components : Inline Multiline HTML can be written against 'template' property enclosed in ``(on tilde key)
+             similarly inline style can be written against 'styles' property
+Queries :
+    How is environment of app execution identified by angular? (to be discussed)
