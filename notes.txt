@@ -7,6 +7,13 @@ package.json
     DevDependencies - used only for dev (Eg cli, types file, TS, linting)
     ~ - includes bug fixes
     ^ - latest stable 
+    (In the simplest terms, 
+        the tilde matches the most recent minor version (the middle number). 
+        ~1.2.3 will match all 1.2.x versions but will miss 1.3.0.
+
+        The caret, on the other hand, is more relaxed. 
+        It will update you to the most recent major version (the first number). 
+        ^1.2.3 will match any 1.x.x release including 1.3.0, but will hold off on 2.0.0.)
 
 When development freezed remove tilde and caret symbols. When required to update QC and test on local,
 and after that update prod package.json file.
@@ -36,7 +43,38 @@ Commands :
     ("start": "ng serve",) changed to ("start": "ng serve --open --port=4201",)
     npm start Command's Behavior changed
 
+For prod build : ng build --prod
+
 Components : Inline Multiline HTML can be written against 'template' property enclosed in ``(on tilde key)
              similarly inline style can be written against 'styles' property
+
+Angular compiles HTML through JS files. Browser can understand and good for security since only valid HTML
+is rendered. If unknown HTML, then error is returned.
+
+Interpolation Syntax of Angular : code within this {{}} -> code within is evaluated
+
+Live reload -> Ctrl + S
+
+app.module.ts : It is recommended that bootstrap array should only have one entry so that app has only
+one entry point
+
+Property binding : Write property name in square brackets and value in double quotes. When value in double
+quotes it checks whether it is computable. To not compute for example (name is a variable, but you want to 
+assign the value as string 'name' and not the value of name variable, nest property value within single quotes
+Eg - "'name'")
+
+Banana Syntax for eventHandlers in Angular. For OnChange event, its written as (change) = "fnname()"
+
+Two way data binding achieved in Angular through
+    Property binding : Changes view's value according to variable's values
+    Event binding : changes variable's value according to view's values
+
+Directives : *ngIf
+
+Single quotes to be used for strings, since by default lint settings specify single quotes for string.
+Using double quotes would cause lint to fail under these settings.
+
+Comment in VS Code - Ctrl + K + C
+
 Queries :
     How is environment of app execution identified by angular? (to be discussed)

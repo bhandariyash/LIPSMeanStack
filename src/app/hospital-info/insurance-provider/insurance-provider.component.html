@@ -1,0 +1,31 @@
+<h1>
+  Insurance Providers
+</h1>
+{{providers | json }}
+<table *ngIf="providers">
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Cashless
+      </th>
+      <th>
+        Daily Limit
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let provider of providers">
+      <td>
+        {{provider.name}}
+      </td>
+      <td [innerText]="provider.cashless">
+      </td>
+      <td>
+        {{provider.dailyLimit}}
+      </td>
+    </tr>
+  </tbody>
+</table>

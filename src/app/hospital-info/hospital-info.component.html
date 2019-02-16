@@ -1,0 +1,15 @@
+<h1>
+  Hospital Info
+</h1>
+{{hospitalInfo | json}}
+<div>
+  Name: {{hospitalInfo?.name}}
+</div>
+<div>
+  Address: {{hospitalInfo.address === undefined ? 'Mumbai' : hospitalInfo.address}}
+</div>
+<div>
+  Specialization: {{hospitalInfo?.specialization}}
+</div>
+<hr>
+<app-insurance-provider></app-insurance-provider>
