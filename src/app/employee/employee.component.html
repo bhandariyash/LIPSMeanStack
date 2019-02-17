@@ -8,7 +8,7 @@
 
 <h4 [id]="name" *ngIf="isHidden" [innerText]="name"></h4>
 
-<input [hidden]= "isHidden" type="text" [value]="name" placeholder="Name" (change)="changeName($event)">
-<input [hidden]= "isHidden" type="text" [value]="city" placeholder="city">
+<input class="form-control" [hidden]= "isHidden" type="text" [value]="name" placeholder="Name" (change)="changeName($event)">
+<input class="form-control" [hidden]= "isHidden" type="text" [value]="city" placeholder="city">
 
-<button type="button" (click) = "toggleInputs()">Toggle</button>
+<button class="btn btn-primary" type="button" (click) = "toggleInputs()">Toggle</button>

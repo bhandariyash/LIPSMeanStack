@@ -76,5 +76,41 @@ Using double quotes would cause lint to fail under these settings.
 
 Comment in VS Code - Ctrl + K + C
 
+npm install bootstrap --save 
+--save would add bootstrap to Dependencies section of package.json
+it can be appended by -dev/-D to add to DevDependencies section of package.json 
+(example - npm install bootstrap --save-dev)
+
+@import '~bootstrap/dist/css/bootstrap.css' (~ directly searches in nodemodules folder)
+
+Pagination should be taken care of on server side. If less no. of records, then can be done at client side
+else server side
+
+trackby function of *NgFor : renders only specific changed/added record of array  and not all the elements
+of the array. It must be used. In case data fetched from db, then return db index values. It would
+be appropriate for addition and deletion.
+
+Note : trackbyfn written and not  trackbyfn(), this is a specific use case :
+<tr *ngFor="let provider of providers;index as i;first as isFirst;last as isLast;even as isEven;
+    odd as isOdd;trackBy:trackByfn">
+Other places generally function() is used.
+
+ngSwitch
+ngClass
+
+Component Interaction 
+    Way 1 : @Input - most preferred - used in parent child relationship
+
+Input -property binding , Output - event binding
+
+For linting : npm run lint/ ng lint
+Shortcut to fix : ng lint --fix
+
 Queries :
     How is environment of app execution identified by angular? (to be discussed)
+    ngFor : even, odd, trackBy [Study]
+
+Assignment :
+Rooms Component : cost, availability, room no, room type, 
+Update Availability flag when selected, disable flag property binding
+RoomList Component

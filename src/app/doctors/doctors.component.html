@@ -1,0 +1,10 @@
+<h2>
+  Selected Doctor
+</h2>
+<div>
+  Name : {{selectedDoctor?.name}}
+</div>
+<div>
+  Contact Number : {{selectedDoctor?.contactNo}}
+</div>
+<app-doctors-list [doctorsList]="doctorList" (selectedDoctor)="receiveDoctor($event)"></app-doctors-list>

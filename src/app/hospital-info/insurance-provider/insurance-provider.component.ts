@@ -12,10 +12,16 @@ export class InsuranceProviderComponent implements OnInit {
     {name: 'BOI', cashLess: false, dailyLimit: 5000},
     {name: 'Star Health', cashLess: true, dailyLimit: 10000},
     {name: 'HDFC', cashLess: true, dailyLimit: 7000},
+    {name: 'UBI', cashLess: true, dailyLimit: 7000},
+    {name: 'Kotak', cashLess: true, dailyLimit: 7000},
   ];
   constructor() { }
 
   ngOnInit() {
+  }
+
+  trackByFn(index, item) {
+    return index;
   }
 
 }

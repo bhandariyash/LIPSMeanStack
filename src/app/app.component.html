@@ -1,10 +1,22 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<div style="text-align:center" class="container">
   <h1>
     Welcome to {{ title }}!
   </h1>
+  <app-doctors></app-doctors>
+  <!-- <div [ngSwitch]="role">
+    <div *ngSwitchCase="'Employee'">
+        <app-employee></app-employee>
+    </div>
+    <div *ngSwitchCase="'Admin'">
+        <app-hospital-info></app-hospital-info>
+    </div>
+    <div *ngSwitchDefault>
+      You are not assigned to any role.
+    </div>
+  </div>
+</div> -->
 <app-employee></app-employee>
 <app-hospital-info></app-hospital-info>
-</div>
 
 
