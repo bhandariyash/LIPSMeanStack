@@ -106,11 +106,216 @@ Input -property binding , Output - event binding
 For linting : npm run lint/ ng lint
 Shortcut to fix : ng lint --fix
 
+View Encapsulation: CSS does not leak out  of the  component for which it is defined. 
+By default, its emulated.
+ViewEncapsulation: none, host: {class: } is useful for themes
+
+Component Life Cycle
+ng onInit can be used to get data from backend to display
+ng DoCheck : performance affected. Change 
+
+zone.js - change detection (referred in package.json)
+          check method called
+
+Parent component should have control over  child component. All deb calls, event to delete Componentscalll should go through parent.
+onChanges triggered when @Input property changes.
+
+Change detection strategy : default and push
+When changed to push, change occurs only when Input property changes(not modified). 
+When Property value changed in original source component and reflected in child component, even then the
+value is not rendered since the value is modified but the onChange does not happen. 
+Push change strategy will only work on onChange event for Input property.
+
+Things to keep in mind :
+    1. Always change value of Input property from the parent component.
+    2. Use Input properties directly in the child component.
+
+OnChange event is only there for @Input properties.
+
+In Child component, NEVER EVER assign the Input property to another local variable and use it. 
+ALWAYS use Input property directly for binding.
+Otherwise, change detection will not work as expected.
+
+Component Interaction : 
+    1. Input and Output properties
+    2. ViewChild and ViewChildren
+    3. Services
+
+ng g c <name> --inline-template (does not create html file for component)
+
+ng g c --help (help on this command, similarly for other commands)
+
+Hot module reload 
+
+Renderer 2 : for DOM modification. Use this, this creates virtual dom and renders it rather than
+changing the original DOM. It is type safe.
+Angular says DON'T modify DOM directly.
+
+ElementRef is type of HTML element
+
+Two use cases of View Child
+    1. create an template with properties and create objects of it in other components and set values of 
+        properties and use as required.
+    2.  use #<somename> and use to modify DOM
+
+ViewChild - picks up first instance  from the DOM
+ViewChildren - if multiple 
+Problem with  viewChild and viewChildren : creating new instances of component inside another component.
+setTimeout(() => this.headerComponent.header = 'Selected Doctor', 0); 
+    -> setTimeout used to avoid below error 
+        ERROR Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value: 'null: '. Current value: 'null: Selected Doctor'.
+    at viewDebugError (core.js:20341)
+    at expressionChangedAfterItHasBeenCheckedError (core.js:20329)
+    at checkBindingNoChanges (core.js:20431)
+    at checkNoChangesNodeInline (core.js:23302)
+    at checkNoChangesNode (core.js:23291)
+    at debugCheckNoChangesNode (core.js:23895)
+    at debugCheckRenderNodeFn (core.js:23849)
+    at Object.eval [as updateRenderer] (HeaderComponent.html:1)
+    at Object.debugUpdateRenderer [as updateRenderer] (core.js:23838)
+    at checkNoChangesView (core.js:23192)
+
+    -> Above error appears only in dev mode, does not come in prod
+    -> setTimeout does not work in IE.
+
+Content projection
+    -very powerful
+    -ng-content
+    - select parameter can be provided, then tag selector would be matched and rendered accordingly.
+    - <ng-content> without parameter would simply render everything
+    - ng-container -provides default container for repeating elements/components and removed at runtime.
+
+Services : 
+
+NEVER WRITE ANY API CALLS FROM COMPONENT, ALWAYS WRITE IN SERVICES.
+Use services only when components are not related. If related, then use @input/@output properties (best),
+View child/children (avoid if can use properties), avoid services.
+
+Where to place services?
+    -If reusable, then in app folder or create common folder in app.
+    -If specific to component, then in component
+Dependency Injection : New object is not created, single is used. In Angular, implemented by passing
+parameter to constructor
+Model should reside in service folder.
+Component should be dumb, they have to receive and provide/render data. Data is provided by services.
+By default, single instance of service is created. (Singleton design pattern)
+Till Angular 5, 'providedin: root' was not there. In that case, in appmodule.ts, service needs to be 
+mentioned(registered) in providers array. This is not  tree-shackable appproach i.e. whether required or not 
+it would be added.
+Angular 6 onwards, providedin : root is provided by default. If using Angular 6 and above, this appproach
+should be used. Its tree shackable.
+Services are searched by component and if not found then it looks for it in its parent, and finally to
+AppComponent followed by AppModule. If it is found, it is used, otherwise error is returned not able to
+find service.
+
+To create multiple instances of service, add providers array in properties to the component and mentioned
+component in the property.
+
+variables should be declared before constructors.
+
+Services should be made non-Singleton when specific to a component. This is to avoid data leakage.
+-> If need to avoid for child component, then provide in child component's providers array as well.
+
+@SkipSelf - used to skip component while checking for instance, good for performance improvement
+
+@Self - will indicate that the component has that service injected into it and no need to go further
+to search for it. If this is specified and providers array of that component is empty, then error is 
+returned. This acts as a check.
+
+@Optional - Service becomes optional, if it is not found then no eror is returned.
+Practical Example - Logging, where we want it to be done in dev mode but not in prod mode and control it
+through a flag, then we can keep that service as optional.
+
+RxJS used for streams, can be used without angular as well. (http://reactivex.io/)
+
+Buzzwords - Socket.io (used to generate streams), SignalR (alternative from Microsoft)
+
+Pub-sub (Publish-Subscribe) design pattern
+
+Static data to streams (observable) use 'of' keyword.
+
+public DI would make service available to html (component.html). Should not be used.
+
+Subject is by default observable.
+
+All components are not initialized at the same time. Routing will demonstrate that. Only the visible
+components are initialized and only they would reflect change and receive data. (Said, not 100% sure)
+
+EventEmitter etends Subject
+
+Using JSonPlaceholder for apis
+
+Steps to Implement http : 
+    1. import {HTTPClientModule} from  '@angular/common/http' and add to imports array in app.module
+
+Form Validations : 
+    Min, max and email validations don't work in Angular. - Way to mitigate is custom validations, for
+    emails patterns.
+
+ChangeDetectorRef : to forcefully detect changes when change strategy is set as push.
+
+    Routing
+    All routes are defined on client side. Server calls are only made through http.
+    To add routing module to application :
+        ng g module routing
+
+    ng g module todos --routing --force
+    --force option to override existing file
+
+    ActivatedRoute : use when anything related to routes
+
+    Dynamic Navigation based on conditions (Eg. Login)
+
+    Sequence of imports matters when we use routing within components. Routing component should be the last.
+    <router-outlet> node must be written in parent component as well in case childern property is used (nesting)
+    in Routes.
+
+    Lazy Loading - loading on demand.
+    By default, all modules are 'eagerly' loaded. If a module is mentioned in imports array, that means
+    it is eagerly loaded. 
+    
+    Criteria : 
+        1. Only a module can be lazy loaded. For lazy loading components, libraries would need to be  used,
+        for eg. one developed by minko gechev
+        2. Lazy loaded module can't share anything.
+        3. It should not be registered anywhere.
+
+Guards - safeguard
+
+    1. CanActivate - am I authorised to activate url?
+    2. CanActivateChild
+    3. CanDeActivate
+    4. Resolve
+    5. CanLoad
+
+    Resolve method handles subscription by itself, no need to call Subscribe
+    One resolve uard can handle only one resolve, in case of multiple data, create multiple guards
+
 Queries :
     How is environment of app execution identified by angular? (to be discussed)
-    ngFor : even, odd, trackBy [Study]
+    OnChange implementation for Multiple input properties 
+    Another use case of ViewChild?
+    Significance of push changestrategy with example in Room component?
+    this.headerComponent.header = 'Selected Doctor'; in doctors.component.ts -why no effect?
+    ChangeDetectorRef service example
+    ng-container remaining
+    What is the Significance and design requirement of creating multiple modules in application? Till now,
+    we have created only one module.
+    form.valid true when page loaded despite of validations being false.Why?
+    Custom validations in Template driven form requires directives. Will see later.
+    Other ways to unsubscribe. Will see later
+    1. Significance of <base href = "/"> in index.html?
 
 Assignment :
 Rooms Component : cost, availability, room no, room type, 
 Update Availability flag when selected, disable flag property binding
 RoomList Component
+Implement Change Detection Strategy for room component.
+ngFor : even, odd, trackBy [Study]
+Spread operator
+ng-container apply for room component - use bootstrap panel
+tree shakable 
+Why routing can't be done for components in parent-child relationship?
+Snackbar implementation when login fails
+
+Implement routing, lazy modules and guards in Books

@@ -1,0 +1,25 @@
+<h1>Rooms</h1>
+<table *ngIf="roomsList" class="table">
+  <thead>
+    <tr>
+      <th>Sr No</th>
+      <th>Room No</th>
+      <th>Category</th>
+      <th>Availablity</th>
+      <th>Price</th>
+      <th>Select Room</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let room of roomsList; index as i">
+      <td>{{i + 1}}</td>
+      <td>{{room.roomNo}}</td>
+      <td>{{room.roomCategory}}</td>
+      <td>{{room.isRoomAvailable}}</td>
+      <td>{{room.roomPrice}}</td>
+      <td>
+        <button class="button btn-success" (click) = "sendSelectedRoom(room)">Select</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

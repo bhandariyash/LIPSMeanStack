@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { IHospitalInfo } from './hospital';
 
 @Component({
@@ -8,14 +8,18 @@ import { IHospitalInfo } from './hospital';
 })
 export class HospitalInfoComponent implements OnInit {
 
+  @ViewChild('hospHeader') header: ElementRef //ElementRef is type of HTML element
   hospitalInfo: IHospitalInfo = {
     name: 'Test',
     address: 'Pune',
     specialization: 'Orthopaedic'
   }
-  constructor() { }
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
+    console.log(this.header.nativeElement);
+    //this.header.nativeElement.innerText = 'New Header'; //not recommended, changes DOM directly
+    this.renderer.setProperty(this.header.nativeElement, 'innerText', 'New Header');
   }
 
 }

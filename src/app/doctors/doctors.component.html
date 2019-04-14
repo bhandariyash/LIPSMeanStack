@@ -1,10 +1,14 @@
-<h2>
-  Selected Doctor
-</h2>
+<app-header></app-header>
+<button class="btn btn-primary" (click)="addDoctor()">Add New Doctor</button>
 <div>
   Name : {{selectedDoctor?.name}}
 </div>
 <div>
   Contact Number : {{selectedDoctor?.contactNo}}
 </div>
+<app-header></app-header>
+<app-header></app-header>
 <app-doctors-list [doctorsList]="doctorList" (selectedDoctor)="receiveDoctor($event)"></app-doctors-list>
+<app-content>
+  <app-doctors-list [doctorsList]="doctorList" (selectedDoctor)="receiveDoctor($event)"></app-doctors-list>
+</app-content>

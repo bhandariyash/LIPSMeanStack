@@ -1,29 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck, ViewChild, AfterViewInit, ViewChildren, QueryList, Self } from '@angular/core';
+import { HeaderComponent } from '../header/header.component';
+import { IDoctors } from './services/doctors';
+import { DoctorService } from './services/doctor.service';
 
-import { IDoctors } from './doctors';
- 
 @Component({
   selector: 'app-doctors',
   templateUrl: './doctors.component.html',
-  styleUrls: ['./doctors.component.css']
+  styleUrls: ['./doctors.component.css'],
+  providers: [DoctorService]
 })
-export class DoctorsComponent implements OnInit {
+export class DoctorsComponent implements OnInit, DoCheck, AfterViewInit {
 
+  @ViewChild(HeaderComponent) headerComponent: HeaderComponent;
+  @ViewChildren(HeaderComponent) headerChildren: QueryList<HeaderComponent>;
   selectedDoctor: IDoctors;
-  doctorList: Array<IDoctors> = [
-    {name: 'Ram', speciality: 'Surgeon', degree: 'MBBS', contactNo: '871234000', joinedOn: new Date('11-Oct-1994'), salary: 50000},
-    {name: 'Shyaam', speciality: 'Heart', degree: 'MD', contactNo: '871232000', joinedOn: new Date('11-Oct-2000'), salary: 60000},
-    {name: 'Rohan', speciality: 'ENT', degree: 'MBBS', contactNo: '871231230', joinedOn: new Date('11-Oct-2002'), salary: 70000},
-    {name: 'Mohan', speciality: 'Dietician', degree: 'MD', contactNo: '871234789', joinedOn: new Date('11-Oct-2006'), salary: 80000},
-    {name: 'Sohan', speciality: 'Surgeon', degree: 'MD', contactNo: '871235670', joinedOn: new Date('11-Oct-1990'), salary: 100000},
-    {name: 'Test', speciality: 'Surgeon', degree: 'MBBS', contactNo: '871664000', joinedOn: new Date('11-Oct-1995'), salary: 10000},
-  ];
-  constructor() { }
+  doctorList: Array<IDoctors> = [];
+  constructor(@Self() private docService: DoctorService) { }
 
   ngOnInit() {
+    this.doctorList = this.docService.getDoctorList();
+  }
+
+  addDoctor() {
+    // this.doctorList = [...this.doctorList,
+    // { name: 'Test1', speciality: 'Surgeon', degree: 'MBBS', contactNo: '123', joinedOn: new Date('11-Oct-1995'), salary: 10000 }
+    // ];
+
+    //this.doctorList.push({ name: 'Test1', speciality: 'Surgeon', degree: 'MBBS', contactNo: '123', joinedOn: new Date('11-Oct-1995'), salary: 10000 });
+    this.doctorList = this.docService.addDoctor({ name: 'Test2', speciality: 'Surgeon', degree: 'MBBS', contactNo: '123', joinedOn: new Date('11-Oct-1995'), salary: 10000 });
+  }
+
+  ngDoCheck(): void {
+    console.log('Do check is called');
   }
 
   receiveDoctor(doctor: IDoctors) {
     this.selectedDoctor = doctor;
   }
+
+  ngAfterViewInit(): void {
+    console.log(this.headerChildren);
+    this.headerComponent.header = 'Selected Doctor';
+    //setTimeout(() => this.headerComponent.header = 'Selected Doctor', 0); //to avoid dev mode error
+    this.headerChildren.forEach((headerComp, i) => {
+      console.log(i);
+      setTimeout(() => headerComp.header = "Selected Doctor from children", 0);
+    });
+    //this.headerComponent.header = 'Selected Doctor'; //does not override ViewChildren effect
+    // setTimeout(() => this.headerComponent.header = 'Selected Doctor', 0); //overrides ViewChildren effect
+  }
+
 }
