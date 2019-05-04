@@ -1,8 +1,9 @@
-import { Component, SkipSelf, OnInit } from '@angular/core';
+import { Component, SkipSelf, OnInit, Inject } from '@angular/core';
 import { IPatient } from './patient/IPatient';
 import { DoctorService } from './doctors/services/doctor.service';
 import { ObservableService } from './Observables/observable.service';
 import { NavigationStart, Router } from '@angular/router';
+import { APP_CONFIG, IAppConfig } from 'core';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,12 @@ export class AppComponent implements OnInit{
     { name: 'Test4', age: 25, number: '1243970', address: 'Pune', symptoms: 'cold' }
   ];
 
-  constructor(@SkipSelf() private docService: DoctorService, private obsService: ObservableService, private router: Router) { }
+  constructor(@SkipSelf() private docService: DoctorService, 
+  private obsService: ObservableService, 
+  private router: Router,
+  @Inject(APP_CONFIG) private appConfig: IAppConfig ) {
+    console.log(appConfig);
+   }
 
   ngOnInit(): void {
 

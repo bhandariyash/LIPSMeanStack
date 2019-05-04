@@ -1,0 +1,80 @@
+{{registrationForm.invalid}}
+{{registrationForm.valid}}
+{{registrationForm.pristine}}
+{{registrationForm.dirty}}
+{{registrationForm.value | json}} 
+<div *ngIf="registrationForm.errors?.invalidDate" class="alert alert-danger">
+	From Date is greater than To Date
+</div>
+<form [formGroup]="registrationForm" (submit)="saveData()">
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Name" formControlName="name">
+		<div>
+			{{registrationForm.get('name').errors | json}}
+		</div>
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input type="number" matInput placeholder="Age" formControlName="age">
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Email" formControlName="email">
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Mobile" formControlName="mobile">
+		<div>
+			{{registrationForm.get('mobile').errors | json}}
+		</div>
+	</mat-form-field>
+	<div formGroupName="address">
+		<mat-form-field class="full-width">
+			<input matInput placeholder="Address Line1" formControlName="addressLine1">
+			<div>
+				{{registrationForm.get('address.addressLine1').errors | json}}
+			</div>
+		</mat-form-field>
+		<mat-form-field class="full-width">
+			<input matInput placeholder="Address Line2" formControlName="addressLine2">
+		</mat-form-field>
+		<mat-form-field class="full-width">
+			<input matInput placeholder="City" formControlName="city">
+		</mat-form-field>
+		<mat-form-field class="full-width">
+			<input matInput placeholder="Pin" formControlName="pin">
+		</mat-form-field>
+	</div>
+	<button type="button" mat-raised-button color="primary" (click)="addHistory()">Add History</button>
+	<div formArrayName="previousHistory">
+		<div *ngFor="let history of registrationForm['controls'].previousHistory['controls']; let i=index">
+			<div [formGroupName]="i">
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Hospitalized At" formControlName="hospitalizedAt">
+					<div>
+						{{registrationForm.get(['previousHistory', i, 'hospitalizedAt']).errors | json}}
+					</div>
+				</mat-form-field>
+				<mat-form-field class="full-width">
+					<input matInput [matDatepicker]="picker" placeholder="From Date" formControlName="fromDate">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+					<div>
+						{{registrationForm.get(['previousHistory', i, 'fromDate']).errors | json}}		
+					</div>
+				</mat-form-field>
+				<mat-form-field class="full-width">
+					<input matInput [matDatepicker]="picker1" placeholder="To Date" formControlName="toDate">
+					<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+					<mat-datepicker #picker1></mat-datepicker>
+				</mat-form-field>
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Disease" formControlName="disease">
+				</mat-form-field>
+				<div *ngIf="i>0">
+					<button type="button" mat-raised-button color="warn" (click)="removeHistory(i)">Remove
+						History</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<button [disabled]="registrationForm.invalid" type="submit" mat-raised-button color="primary">Register</button>
+	</div>

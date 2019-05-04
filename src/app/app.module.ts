@@ -17,10 +17,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { RoutingModule } from './routing/routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-import { TodosModule } from './todos/todos.module';
 import { DoctorsModule } from './doctors/doctors.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginComponent } from './login/login.component';
+import { PatientRegistrationComponent } from './patient/patient-registration/patient-registration.component';
+import { ModePipe } from './hospital-info/mode.pipe';
+import { SearchPipe } from './hospital-info/search.pipe';
+import { APP_CONFIG, IAppConfig } from 'core';
+import { environment } from '../environments/environment';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CustomInterceptorService } from './customInterceptor/custom.interceptor.service';
+import { HoverDirective } from './customDirective/hover.directive';
+
+const app_config: IAppConfig = {
+  apiEndPoint: environment.apiEndPoint
+};
 
 @NgModule({
   declarations: [
@@ -37,7 +48,11 @@ import { LoginComponent } from './login/login.component';
     PostsListComponent,
     MainNavComponent,
     PagenotfoundComponent,
-    LoginComponent
+    LoginComponent,
+    PatientRegistrationComponent,
+    ModePipe,
+    SearchPipe,
+    HoverDirective
   ],
   imports: [
     BrowserModule,
@@ -47,7 +62,10 @@ import { LoginComponent } from './login/login.component';
     RoutingModule
   ],
   entryComponents: [HeaderComponent], 
-  providers: [],
+  providers: [
+    {provide: APP_CONFIG, useValue: app_config},
+    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptorService, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

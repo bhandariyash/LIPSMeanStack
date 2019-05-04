@@ -291,6 +291,59 @@ Guards - safeguard
     Resolve method handles subscription by itself, no need to call Subscribe
     One resolve uard can handle only one resolve, in case of multiple data, create multiple guards
 
+Reactive forms
+
+        //Registering to change events on Forms
+    this.registrationForm.valueChanges.subscribe((data) => {
+      console.log(data);
+    });
+    -Similarly, we can check for particular  control
+    -setErrors to set errors
+    -setValidator () to dynamically set validators on form controls/entire forms
+    -patchValue() should be used over setValue(), since setValue() requires all fields' value in the form
+    to be provided, whereas patchValue() is flexible.
+    -getRawValue() should be used over getValue(). getValue() does not return values of disabled controls,
+    whereas getRawValue() does.
+
+TrackBy funcion uses hashing technique
+
+Pipes : 
+    slice : 1 : 2 - Pagination; 1 is the start index and 2 is end index. It always works on arrays
+    percent - displays in percentage (.9 | percent would return 90%)
+    lowercase
+    uppercase
+    date
+    - Chaining of pipes can also be done (Example: {{provider.activeFrom | date: 'dd MMM, yyyy' | lowercase}})
+    - Custom pipes
+
+With Angular8, angular.json would be called workspace. Then projects could be added separately then. By default, the project
+    created first would become default project by default. To run any project other than the default project,
+    its name should be mentioned.
+
+Libraries:     
+    Lodash, Underscore are Javascript commmon function libraries. They can also be used in Angular with libraries
+    feature and using @Inject.
+    Libraries are identified by projectType: library in angular.json. 
+    While importing library, writing till name of the library is sufficient. No need to write further path.
+    to build library, commmand is : ng build <library name>
+    public_apis.ts contains the exports of library. In the later versions, it has been renamed to 'public-apis.ts'
+
+Interceptors :
+    Best place to log errors and add headers if required to do for every request, better than writing
+    code at all places.
+
+Directives : 
+    Can be understood as components without view.
+    @HostListener can be used to listen for events.
+    Command used : 
+        e:\LIPS Angular\HospitalManagementApp\src\app\customDirective>ng g directive hover --flat=true
+
+Publishing library on npm
+
+    npm login
+    npm publish dist/core --access=public
+    npm logout
+
 Queries :
     How is environment of app execution identified by angular? (to be discussed)
     OnChange implementation for Multiple input properties 
@@ -317,5 +370,4 @@ ng-container apply for room component - use bootstrap panel
 tree shakable 
 Why routing can't be done for components in parent-child relationship?
 Snackbar implementation when login fails
-
-Implement routing, lazy modules and guards in Books
+Implement routing, lazy modules and guards in room

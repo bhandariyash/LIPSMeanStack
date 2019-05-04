@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITodo } from './todo';
 
@@ -11,7 +11,8 @@ export class TodoService {
   constructor(private http: HttpClient) { }
 
   getTodoList(): Observable<ITodo[]> {
-    return this.http.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos');
+    const header = new HttpHeaders().set('x-access-token', 'asfds');
+    return this.http.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos', {headers: header});
   }
 
   addTodo(todo: ITodo) {
@@ -24,5 +25,14 @@ export class TodoService {
 
   deleteTodo(todo: ITodo) {
     return this.http.delete<ITodo>('https://jsonplaceholder.typicode.com/todos/'+todo.id);
+  }
+
+  getPhotos() {
+    const request = new HttpRequest('GET', 'https://jsonplaceholder.typicode.com/todos/', null,
+    {
+      reportProgress: true
+    });
+
+    return this.http.request(request);
   }
 }

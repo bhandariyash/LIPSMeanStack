@@ -5,7 +5,7 @@ import { ContentComponent } from '../content/content.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatListModule, MatIconModule, MatFormFieldModule, MatInputModule } from '@angular/material'; 
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatListModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material'; 
 
 @NgModule({
   declarations: [
@@ -41,7 +41,9 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatListModule, Mat
     HeaderComponent,
     ContentComponent,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule, 
+    MatNativeDateModule
   ]
 })
 export class SharedModule { }

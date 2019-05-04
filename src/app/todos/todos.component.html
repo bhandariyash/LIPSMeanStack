@@ -1,6 +1,7 @@
 <h1>
   To Do
 </h1>
+{{totalData}}
 <router-outlet></router-outlet>
 <app-todo-add [todo]="task" (addTodo)="addTodo($event)" (updateTodo)="updateTask($event)"></app-todo-add>
 <app-todo-list [todoList]="list" (selectedTask)="currentTask($event)" (removeTask)="deleteTask($event)"></app-todo-list>

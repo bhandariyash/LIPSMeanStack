@@ -1,7 +1,8 @@
 <h1>
   Insurance Providers
 </h1>
-{{providers | json }}
+<!-- {{providers | json }} -->
+<input type="text" [(ngModel)]="providerName" name="provider" placeholder="ProviderName">
 <table *ngIf="providers" class="table">
   <thead>
     <tr>
@@ -17,21 +18,33 @@
       <th>
         Daily Limit
       </th>
+      <th>
+        Coverage
+      </th>
+      <th>
+       Active From
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr [ngClass]="isEven? 'even' : 'odd'" *ngFor="let provider of providers;index as i;first as isFirst;last as isLast;even as isEven;
-    odd as isOdd;trackBy:trackByfn">
+    <tr [ngClass]="isEven? 'even' : 'odd'" *ngFor="let provider of providers | search : providerName;index as i;first as isFirst;last as isLast;even as isEven;
+    odd as isOdd;trackBy:trackByFn">
       <td>
-        {{i+1}} {{isFirst}} {{isLast}} {{isEven}} {{isOdd}}
+        {{i+1}} {{isFirst}} {{isLast}} {{isEven}} {{isOdd}} 
       </td>
       <td>
-        {{provider.name}}
+        {{provider.name | lowercase}}
       </td>
-      <td [innerText]="provider.cashless">
+      <td [innerText]="provider.cashLess | mode">
       </td>
       <td>
-        {{provider.dailyLimit}}
+        {{provider.dailyLimit | currency: 'INR'}}
+      </td>
+      <td>
+        {{provider.coverage | percent}}
+      </td>
+      <td>
+        {{provider.activeFrom | date: 'dd MMM, yyyy' | lowercase}}
       </td>
     </tr>
   </tbody>
